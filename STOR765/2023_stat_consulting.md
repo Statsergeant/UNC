@@ -41,7 +41,7 @@ The dataset, provided by Anna Bauer, encompasses 911 calls in Detroit in
 The original dataset has around 190000 observations, reflecting a rich
 collection of information.
 
-![Bar plot depicting various call types, with the red bar specifically representing Behavioral Health Calls](image/call_type.png)
+![Bar plot depicting various call types, with the red bar specifically representing Behavioral Health Calls](/image/call_type.png)
 
 
 <p class="caption">
