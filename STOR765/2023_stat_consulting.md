@@ -191,7 +191,7 @@ calls, proportion of total calls, population, and relative calls
 <div class="figure" style="text-align: center">
 
 
-![spatial](/image/spatial.png=200x100)
+![spatial](/image/spatial.png=800x800)
 
 
 
