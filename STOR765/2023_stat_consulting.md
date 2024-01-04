@@ -1,8 +1,10 @@
 Insights from Time and Spatial Analysis, Using Behavioral Health Calls in Detroit
 ================
 Client : Anna Bauer 
+
 Investigator : Geonhyeok Jeong
-03 January, 2024
+
+Daet : 03 January, 2024
 
 # 1. Abstract
 
@@ -40,8 +42,8 @@ The original dataset has around 190000 observations, reflecting a rich
 collection of information.
 
 <div class="figure" style="text-align: center">
-
 <img src="images/call_type.png" alt="Bar plot depicting various call types, with the red bar specifically representing Behavioral Health Calls" width="85%" />
+
 <p class="caption">
 Bar plot depicting various call types, with the red bar specifically
 representing Behavioral Health Calls
@@ -73,8 +75,8 @@ months. For this analysis, we generate a bar plot illustrating the
 counts of calls, accompanied by a 95% confidence interval for each bar.
 
 <div class="figure">
-
 <img src="2023_stat_consulting_files/figure-gfm/setup-1.png" alt="Bar Plot of the number of calls for each of e Month, Day, and Hour" width="50%" /><img src="2023_stat_consulting_files/figure-gfm/setup-2.png" alt="Bar Plot of the number of calls for each of e Month, Day, and Hour" width="50%" /><img src="2023_stat_consulting_files/figure-gfm/setup-3.png" alt="Bar Plot of the number of calls for each of e Month, Day, and Hour" width="50%" />
+
 <p class="caption">
 Bar Plot of the number of calls for each of e Month, Day, and Hour
 </p>
