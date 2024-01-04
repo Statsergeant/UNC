@@ -4,7 +4,7 @@ Client : Anna Bauer
 
 Investigator : Geonhyeok Jeong
 
-Daet : 03 January, 2024
+Date : 03 January, 2024
 
 # 1. Abstract
 
@@ -75,8 +75,8 @@ exploring potential differences in call counts based on hours, days, and
 months. For this analysis, we generate a bar plot illustrating the
 counts of calls, accompanied by a 95% confidence interval for each bar.
 
-<div class="figure">
-<img src="2023_stat_consulting_files/figure-gfm/setup-1.png" alt="Bar Plot of the number of calls for each of e Month, Day, and Hour" width="50%" /><img src="2023_stat_consulting_files/figure-gfm/setup-2.png" alt="Bar Plot of the number of calls for each of e Month, Day, and Hour" width="50%" /><img src="2023_stat_consulting_files/figure-gfm/setup-3.png" alt="Bar Plot of the number of calls for each of e Month, Day, and Hour" width="50%" />
+![time_image](/image/time_image.png)
+
 
 <p class="caption">
 Bar Plot of the number of calls for each of e Month, Day, and Hour
@@ -189,8 +189,8 @@ calls, proportion of total calls, population, and relative calls
 (calls/population).
 
 <div class="figure" style="text-align: center">
+![spatial](/image/spatial.png)
 
-<img src="images/Counts_hit_map.png" alt="Heat map illustrating the relationships among Call Counts, log(Propportaion Total), Population, and log(Relative calls), progressing diagonally from the upper left to the lower right" width="43%" height="35%" /><img src="images/Prop_Total_hit_map.png" alt="Heat map illustrating the relationships among Call Counts, log(Propportaion Total), Population, and log(Relative calls), progressing diagonally from the upper left to the lower right" width="43%" height="35%" /><img src="images/Population_hit_map.png" alt="Heat map illustrating the relationships among Call Counts, log(Propportaion Total), Population, and log(Relative calls), progressing diagonally from the upper left to the lower right" width="43%" height="35%" /><img src="images/Relative_counts_hit_map.png" alt="Heat map illustrating the relationships among Call Counts, log(Propportaion Total), Population, and log(Relative calls), progressing diagonally from the upper left to the lower right" width="43%" height="35%" />
 <p class="caption">
 Heat map illustrating the relationships among Call Counts,
 log(Propportaion Total), Population, and log(Relative calls),
@@ -229,7 +229,7 @@ Kolmogorov-Smirnov test should not reject this assumption.
 
 <div class="figure" style="text-align: center">
 
-<img src="images/ecdf.png" alt="Empirical Cumulative Distribution Functions: The red line represents simulated data, while the black line represents actual data." width="85%" />
+![ecdf](/image/ecdf.png)
 <p class="caption">
 Empirical Cumulative Distribution Functions: The red line represents
 simulated data, while the black line represents actual data.
@@ -280,12 +280,11 @@ rates.
 
 <div class="figure" style="text-align: center">
 
-<img src="images/Anova_3.png" alt="Detroit map divided into three regions based on population: low population group, middle, and high" width="85%" />
+![group_location](/image/group_location.png)
 <p class="caption">
 Detroit map divided into three regions based on population: low
 population group, middle, and high
 </p>
-
 </div>
 
 To explore this potential relationship, we conduct an Analysis of
