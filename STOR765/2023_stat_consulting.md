@@ -48,8 +48,12 @@ collection of information.
 Bar plot depicting various call types, with the red bar specifically
 representing Behavioral Health Calls
 </p>
-
 </div>
+
+```R
+opts_chunk$set(fig.pos='H')
+include_graphics("images/call_type.png")
+```
 
 Figure 1 illustrates the diversity of call types present in the dataset.
 Our primary focus is on ‘Behavioral Health’ calls, which often indicate
