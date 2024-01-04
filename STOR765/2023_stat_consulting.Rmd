@@ -1,0 +1,315 @@
+---
+title: Insights from Time and Spatial Analysis, Using Behavioral Health Calls in Detroit
+author: 
+  - 'Client : Anna Bauer'
+  - 'Investigator : Geonhyeok Jeong'
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: 
+   github_document:
+    html_preview: false
+always_allow_html: yes
+---
+
+```{r,include=F}
+library(tidyverse)
+library(data.table)
+library(skimr)
+library(gtsummary)
+library(readxl)
+library(sf)
+library(mapview)
+library(ggmap)
+library(spatstat)
+library(leafpop)
+library(viridis)
+library(tigris)
+library(knitr)
+library(kableExtra)
+library(xtable)
+```
+
+ 
+
+# 1. Abstract
+
+The purpose of this statistical consultation is to identify suicide 'hot spots' rather than individual risks, utilizing a population-level approach. To discern patterns and conduct a more thorough analysis, our focus centers on behavioral health data in Detroit, which often indicates mental health problems that could potentially lead to suicides. Several analyses and hypothesis tests are conducted with time and spatial analysis.
+
+Before constructing a predictive model for suicide, we scrutinize the data and identify significant variables to ensure the development of a robust model. We have a general idea of what might drive someone to attempt suicide and acknowledge its highly time and context-dependent nature. Our analysis supports these assumptions:
+
+- According to the Chi-square test, the results demonstrate a significant temporal dependency of call volume, varying hourly, daily, and monthly.
+
+- Through simulation and ANOVA tests, we discover that the frequency of calls is not proportional to the population. In fact, regions with smaller populations proportionally have more calls relayed to 911.
+
+These analyses reveal the influence of both time and population size on call counts, highlighting the need for the consideration of additional variables when constructing an effective predictive model.
+
+
+
+# 2. Exploratory Data Analysis
+
+The dataset, provided by Anna Bauer, encompasses 911 calls in Detroit in 2017, and is compromised of both original and revised data for analysis. The original dataset has around 190000 observations, reflecting a rich collection of information.
+
+
+
+```{r, echo=FALSE,fig.cap='Bar plot depicting various call types, with the red bar specifically representing Behavioral Health Calls', fig.align='center', out.width= '85%'}
+
+
+opts_chunk$set(fig.pos='H')
+include_graphics("images/call_type.png")
+```
+
+Figure 1 illustrates the diversity of call types present in the dataset. Our primary focus is on 'Behavioral Health' calls, which often indicate mental health problems that could potentially lead to suicides. After filtering for 'Behavioral Health' calls, we narrowed down our dataset to approximately 50,000 observations. This focused subset enables a more targeted analysis of mental health-related emergency calls. We examined the data from a spatial perspective, identifying 218 unique locations associated with Behavioral Health calls. Unfortunately, three locations lack population information, compelling us to exclude them from further analysis, as they represent only 200 observations out of the total 50,000.
+
+
+
+# 3. Methodology
+
+## 3.1 Time Analysis
+
+### 3.1.1 Distribution of 'Behavioral Health' Calls Over Time  
+
+```{r, echo=F}
+data <- read_excel('detroit_analysis.xlsx') %>% as.data.frame()
+```
+```{r, echo= F}
+# Let's go with Monthly
+data_bar_month <- data %>% 
+  group_by(month) %>% 
+  summarise(sum = n())
+
+month_name <- c('Jan', 'Feb', 'Mar', 'Apr', "May", 'Jun', 
+            'Jul','Aug', 'Sep','Oct','Novr','Dec')
+
+data_bar_month <- cbind(data_bar_month, month_name) %>% as.data.frame()
+
+data_bar_month$month_name <- factor(data_bar_month$month_name, levels = c('Jan', 'Feb', 'Mar', 'Apr', "May", 'Jun', 'Jul','Aug', 'Sep','Oct','Novr','Dec'))
+
+# This time weekday
+
+data_bar_weekday <- data %>% 
+  group_by(day_of_week) %>% 
+  summarize(sum = n())
+
+week<- c('Sun','Mon','Tues', 'Wedn', 'Thur','Fri', 'Sat')
+
+data_bar_weekday <- cbind(data_bar_weekday, week) %>% as.data.frame()
+
+data_bar_weekday$week <- factor(data_bar_weekday$week, levels = c('Sun','Mon','Tues', 'Wedn', 'Thur','Fri', 'Sat'))
+
+
+# hourly
+data_bar_hour <- data %>% 
+  group_by(hour) %>% 
+  summarize(sum = n())
+```
+
+```{r, echo = F}
+# error bar month
+p_hat <- data_bar_month$sum/ sum(data_bar_month$sum)
+
+z <- qnorm(0.975)
+
+sdd <- NA
+
+for (i in 1:length(p_hat)){
+  # Calculate Wald confidence interval
+  sdd[i] <-  z * sqrt(p_hat[i] * (1 - p_hat[i]) / sum(data_bar_month$sum)) * sum(data_bar_month$sum)
+}
+
+# error bar week day
+
+p_hat_week <- data_bar_weekday$sum/ sum(data_bar_weekday$sum)
+
+sdd_week <- NA
+
+for (i in 1:length(p_hat_week)){
+  # Calculate Wald confidence interval
+  sdd_week[i] <-  z * sqrt(p_hat_week[i] * (1 - p_hat_week[i]) / sum(data_bar_weekday$sum)) * sum(data_bar_weekday$sum)
+}
+
+# error bar week day
+
+p_hat_hour <- data_bar_hour$sum/ sum(data_bar_hour$sum)
+
+sdd_hour <- NA
+
+for (i in 1:length(p_hat_hour)){
+  # Calculate Wald confidence interval
+  sdd_hour[i] <-  z * sqrt(p_hat_hour[i] * (1 - p_hat_hour[i]) / sum(data_bar_hour$sum)) * sum(data_bar_hour$sum)
+}
+
+```
+
+
+
+Our initial focus is to examine the distribution of calls over time, exploring potential differences in call counts based on hours, days, and months. For this analysis, we generate a bar plot illustrating the counts of calls, accompanied by a 95% confidence interval for each bar.
+
+```{r setup, warning=FALSE, echo =F, out.width = '50%', fig.show = 'hold',fig.subcap= c('Month','Day','Hour'), fig.ncol = 2,fig.cap='Bar Plot of the number of calls for each of e Month, Day, and Hour'}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+ ggplot(data_bar_month, aes(x = factor(month_name),y = sum)) + geom_bar(stat= 'identity', fill = 'green') + labs(title = 'The bar graph of the number of calls by month') + xlab('') + ylab(label = 'The number of calls') +
+    geom_errorbar( aes(x=factor(month_name), ymin=sum-sdd, ymax=sum+sdd), width=0.4, colour="orange", alpha=0.9, size=1.0)
+
+ ggplot(data_bar_weekday, aes(x = factor(week),y = sum)) + geom_bar(stat= 'identity', fill = 'red') + labs(title = 'The bar graph of the number of calls by day') + xlab('')  + ylab(label = 'The number of calls')  +
+    geom_errorbar( aes(x=factor(week), ymin=sum-sdd_week, ymax=sum+sdd_week), width=0.4, colour="orange", alpha=0.9, size=1.0)
+
+ ggplot(data_bar_hour, aes(x = factor(hour),y = sum)) + geom_bar(stat= 'identity', fill = 'Yellow') + labs(title = 'The bar graph of the number of calls by hour')+ xlab('')  + ylab(label = 'The number of calls') +
+    geom_errorbar( aes(x=factor(hour), ymin=sum-sdd_hour, ymax=sum+sdd_hour), width=0.4, colour="orange", alpha=0.9, size=1.0)
+```
+
+```{r, echo=FALSE,include = F, out.width="95%",out.height="85%",fig.cap='Bar Plot of the number of calls for each of e Month, Day, and Hour', fig.align='center'}
+opts_chunk$set(fig.pos='H')
+include_graphics("images/time_image.png")
+
+```
+Based on Figure 2, variations in call counts between different times are noticeable. Monthly and hourly bar plots reveal significant differences, as indicated by non-overlapping confidence intervals between time periods. However, the day bar plot does not exhibit this distinction clearly, except for Monday and Friday, where non-overlapping intervals are observed.
+To rigorously assess these differences, we conduct a Chi-square hypothesis test. This test assumes that all groups should have a similar number of calls if there is no influence from times. The 'p-value' helps us determine if there is a real difference between groups of data. If the p-value is less than 0.05, it indicates a strong likelihood that time influences the number of calls. 
+
+```{r, echo = F}
+
+result_chi <- matrix(data = c(348.52,11,'< 2.2e-16',
+                31.597,6,'1.95e-05',
+                4800,23,'< 2.2e-16'),nrow=3, byrow = T) %>% as.data.frame()
+
+rownames(result_chi) <- c('Months','Days','Hours')
+colnames(result_chi) <- c('X-squared','df','p-value')
+
+kable(head(result_chi, "simple"),caption = "Chi-Square result") %>%
+  kable_styling(latex_options = "hold_position")
+
+```
+
+
+While the distinction in the plot for days may not be visually apparent due to the large number of observations, Table 1 reveals that all p-values associated with the time variables (hour, day, and month) are much less than the threshold of 0.05. This suggests that time is a statistically significant factor in predicting the number of calls.
+
+Additionally, it's worth noting that, although the p-value for days is less than 0.05, when compared to the other p-values, it is relatively larger. Consequently, the apparent difference may not be visually evident in the bar plot. The results of our hypothesis tests underscore the importance of including time variables—hour, day, and month—in building a predictive model for future analyses.
+
+## 4.2 Spatial Analysis
+
+### 4.2.1 Distribution of 'Behavioral Health' Calls Over Population Density  
+
+
+Secondly, through spatial analysis, our goal is to uncover patterns, trends, and relationships between location and call density that might not be apparent. This analysis contributes to understanding the geographical aspects of 'Behavioral Health' calls, providing a comprehensive view beyond temporal considerations.
+
+To gain a general overview, several heat maps are generated based on calls, proportion of total calls, population, and relative calls (calls/population).
+
+```{r, echo=FALSE,out.width="43%",out.height="35%",fig.show='hold',fig.align='center', fig.cap='Heat map illustrating the relationships among Call Counts, log(Propportaion Total), Population, and log(Relative calls), progressing diagonally from the upper left to the lower right', fig.subcap= c('Call Counts','log(Proportion Total)','Population','log(Relative Calls)'), fig.ncol = 2}
+
+include_graphics("images/Counts_hit_map.png")
+include_graphics("images/Prop_Total_hit_map.png")
+include_graphics("images/Population_hit_map.png")
+include_graphics("images/Relative_counts_hit_map.png")
+
+
+
+```
+
+We generate four plots: Call Counts, log(Prop_Total), Population, and log(Relative Calls). The intensity of red indicates higher frequencies compared to other regions. The decision to express Proportion of Calls with Total Calls and Relative Calls in logarithmic scale is due to their small values, making differences challenging to discern with original data. Upon constructing the plots, these features become evident.
+
+A quick look at the Call Counts heatmap suggests increased activity in the central area of Detroit. However, without considering population density, this observation may be misleading, as areas with higher populations naturally tend to have more calls. To address this, the Population and Relative Calls heatmaps offer a clearer perspective. These plots unveil that the central area's population is not particularly high, and the Relative Calls heatmap emphasizes regions with proportionally more calls.
+
+To rigorously assess the proportionality of Call Counts to the population, we utilize the Kolmogorov-Smirnov (KS) test with simulation. Assuming that Call Counts are proportional to the population, we generate 50,000 sample data points with a distribution based on the probability of Prop_Pop (population divided by the total population). The goal is to compare the empirical cumulative distribution functions (ECDFs) of the simulated data with the actual Relative Calls. By visualizing the ECDF plots, we can evaluate the similarity in the distribution of the data. If the plots align, we can reasonably infer that the number of calls is proportional to the population, and the Kolmogorov-Smirnov test should not reject this assumption.
+
+
+```{r, echo=FALSE,fig.cap='Empirical Cumulative Distribution Functions: The red line represents simulated data, while the black line represents actual data.',fig.show='hold',fig.align='center', out.width= '85%'}
+opts_chunk$set(fig.pos='H')
+include_graphics("images/ecdf.png")
+```
+
+Upon examining Figure 4, it becomes apparent that the red line representing the ECDF of simulated data differs from the black line depicting the ECDF of actual data. This discrepancy is further supported by the results of the Kolmogorov-Smirnov test.
+
+```{r, echo = F}
+result_KS <- matrix(data = c(0.082585,'< 2.2e-16'),nrow=1, ncol = 2, byrow = T) %>% as.data.frame()
+colnames(result_KS) <- c('D','p-value')
+
+kable(result_KS, caption = "KS test result") %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+
+As depicted in Table 2, the test results reveal significant differences between the ECDFs, where D represents the value of the statistics and the p-value is less than the threshold of 0.05. This suggests that Call counts in each region are not proportional to the population.
+
+However, according to the 2017 CDC report[^1], individuals in urban areas are less likely to commit suicide than those in rural areas. This report implies that population density might inversely affect suicide rates.
+
+[^1]: https://www.cdc.gov/suicide/facts/disparities-in-suicide.html#:~:
+
+```{r, echo=FALSE,fig.cap='Detroit map divided into three regions based on population: low population group, middle, and high',fig.show='hold',fig.align='center', out.width= '85%'}
+opts_chunk$set(fig.pos='H')
+include_graphics("images/Anova_3.png")
+```
+
+To explore this potential relationship, we conduct an Analysis of Variance (ANOVA) test. Initially, we categorize regions into three groups based on population: low_population, middle_population, and high_population, as illustrated in Figure 5. The figure depicts a random distribution of population across these groups. The ANOVA test, designed to assess average differences of relative calls between multiple groups, is then employed for a more in-depth analysis of the relationship.
+
+```{r, echo = F, out.width= '85%'}
+
+anova_33 <- matrix(data = c(2,10.34,5.171,19.94,1.16e-08,212,54.98,0.259, '-','-'),nrow=2,ncol = 5, byrow = T) %>% as.data.frame()
+
+rownames(anova_33) <- c('Group', 'Residuals')
+colnames(anova_33) <- c('Df', 'Sum Sq', 'Mean Sq', 'F value', 'Pr(>F))')
+
+kable(head(anova_33, "simple"),caption = " ANOVA test result for 3 groups") %>%
+  kable_styling(latex_options = "hold_position")
+
+#                Df Sum Sq Mean Sq F value   Pr(>F)    
+# factor(group)   2  10.34   5.171   19.94 1.16e-08 ***
+# Residuals     212  54.98   0.259  
+
+
+anova_33_data <- matrix(c(1	,'Low',	0.12756975 ,2	,'Middle'	,0.09926116, 3,	'High',	0.07452479), nrow= 3, byrow= T)
+
+rownames(anova_33_data) <- c(1:3)
+colnames(anova_33_data) <- c('Group', 'Population', 'Relative Counts')
+
+kable(head(anova_33_data, "simple"),caption = " Relative counts of each groups") %>%
+  kable_styling(latex_options = "hold_position")
+
+                   
+
+```
+
+In the analysis presented in Table 3, the result of the ANOVA test indicates a statistically significant difference between the groups, with a p-value much less than 0.05. The F-value represents the statistics used to obtain the p-value. Other columns, such as DF (Degree of Freedom), Sum sq (Sum of Squares), and Mean sq (Mean of Squares), are explained in detail in this link.[^2]
+
+[^2]: https://www.analyticsvidhya.com/blog/2018/01/anova-analysis-of-variance/#:~:
+
+Focusing on Table 4, we observe that Group 1, representing areas with low population density, exhibits a higher relative calls rate compared to the other groups.
+To enhance the robustness of our findings, we conduct an additional ANOVA test, expanding the scope to six groups. We choose six as we determine that the number of groups would be large enough to highlight the distinctive features of each group.
+
+
+```{r, echo = F, out.width= '85%'}
+
+anova_66 <- matrix(data = c( 5,  13.32,  2.6643,   10.71 ,3.55e-09,209,  52.00,   0.2488, '-','-'),nrow=2,ncol = 5, byrow = T) %>% as.data.frame()
+
+rownames(anova_66) <- c('Group', 'Residuals')
+colnames(anova_66) <- c('Df', 'Sum Sq', 'Mean Sq', 'F value', 'Pr(>F))')
+
+#                Df Sum Sq Mean Sq F value   Pr(>F)    
+# factor(group)   5  13.32  2.6643   10.71 3.55e-09 ***
+# Residuals     209  52.00  0.2488  
+
+kable(head(anova_66, "simple"), caption = 'ANOVA test result for 6 groups' ) %>%
+  kable_styling(latex_options = "hold_position")
+
+anova_66_data <- matrix(c(1,	'Lowest',	0.15646221,
+                          2,	'Low',	0.10516675,
+                          3,	'Lower_Middle',	0.10267224,
+                          4,	'Upper_Middle',	0.09613883,
+                          5,	'High',	0.07696163,
+                          6,	'Highest',	0.07247128), nrow= 6, byrow= T)
+
+rownames(anova_66_data) <- c(1:6)
+colnames(anova_66_data) <- c('Group', 'Population', 'Relative Counts')
+
+kable(head(anova_66_data, "simple"), caption = 'Relative counts of each groups') %>%
+  kable_styling(latex_options = "hold_position")
+
+```
+
+The analysis with six groups reveals clearer distinctions, as the hypothesis is more strongly rejected, with a p-value significantly lower than that of the three-group analysis. Additionally, the differences in relative counts become more pronounced than in the previous analysis. This suggests a significant influence of population density on the number of counts, indicating an inverse proportionality.
+
+### 4.2.2 Distribution of 'Behavioral Health' Calls Over Location  
+
+
+Our attempt to examine the relationship between emergency calls and geographic locations encountered challenges. The data collection method, organized based on regions, did not reveal any discernible patterns or informative insights. One statistical analysis method, the Ripley K function, which is used to identify sparsity or clustering, was applied, but the data does not show clear sparsity or clustering. Further exploration and consideration of the spatial aspects of the data would be needed.
+
+
+
+
