@@ -191,7 +191,7 @@ calls, proportion of total calls, population, and relative calls
 <div class="figure" style="text-align: center">
 
 
-<img src="/image/spatial.png" width="800" height="800" />
+<img src="/image/spatial.png" width="800" height="500" />
 
 <p class="caption">
 Heat map illustrating the relationships among Call Counts,
