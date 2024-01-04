@@ -191,6 +191,8 @@ calls, proportion of total calls, population, and relative calls
 <div class="figure" style="text-align: center">
 ![spatial](/image/spatial.png)
 
+
+
 <p class="caption">
 Heat map illustrating the relationships among Call Counts,
 log(Propportaion Total), Population, and log(Relative calls),
