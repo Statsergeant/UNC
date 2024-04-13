@@ -4,7 +4,10 @@ I will upload my work and projects that I have learned during UNC masters progra
 
 1. STOR_765 : Statistical consulting class
 
-   You can check a report about my work with Prof.Anna, which is related to figure out what variable are important factors for Suicide rate with Call 911 data in Detroit.
+   Fall 2023   : A report with Prof.Anna.
+        title  : Finding Important factors for Suicide rate with Call 911 data in Detroit.
 
-   The final report is a pdf file : Stat_consulting(Anna,Geo)
+   Sprign 2024 : A report with Grace.
+        title  : Exploring Peaks and Trends in Fungi Nuclei Division Through SiZer Analysis
 
+   You will be able to check What I have done as a statistician after consulting with clients.
