@@ -1,0 +1,292 @@
+---
+title: "Machine_Learning_HW4"
+editor: visual
+format:
+  html:
+    code-fold: true
+---
+
+
+```{r}
+#| include: false
+library(tidyverse)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+library(ISLR)
+library(MASS)
+library(e1071)
+library(tree)
+library(randomForest)
+```
+
+<br>
+
+Open the data set College in the R package `ISLR`. The data information is available with `?College`. All of 17 variables except the response variable Private are used for predictors. We randomly generate 600
+training samples and 177 test samples. This random generation repeats 100 times such that
+
+\> RNGkind(sample.kind = "Rounding")<br>
+\> set.seed(1111)<br>
+\> id <- rep(c("tr", "te"), c(600, 177))<br>
+\> index <- matrix(id, length(id), 100)<br>
+\> index <- apply(index, 2, sample)<br>
+
+In the i-th replicate, "tr" and "te" of index[,i] stand for 600 training samples and 177 test samples,
+respectively.
+
+## Question 1
+
+Develop an R function to compute accuracy (ACC), Matthews correlation coefficient (MCC), and F1 score ($F_1$), where two input variables are predicted class labels of 177 test samples, and real class labels of the test set. e.g., Private=="Yes" or Private=="No". Note that ACC is equivalent to “1−misclassification rate” and the formula of MCC and $F_1$ are available in your Homework Assignment 3. To answer the following questions (Q2 ∼ Q6), ACC, MCC, and $F_1$ should be first computed each replicate and then they should be averaged over 100 different replicates.
+
+```{r}
+#| warning: false
+#| cache: true
+
+
+data(College)
+RNGkind(sample.kind = "Rounding")
+set.seed(1111)
+id <- rep(c("tr", "te"), c(600, 177))
+index <- matrix(id, length(id), 100)
+index <- apply(index, 2, sample)
+rep <- dim(index)[2]
+###Q1
+omnibus.fun <- function(pred.class,test.class){
+ acc <- 1-mean(test.class[index[,i]=='te',1]!=pred.class)
+ tp <- sum(pred.class[test.class[index[,i]=='te',1]=='Yes']=='Yes')
+ tn <- sum(pred.class[test.class[index[,i]=='te',1]=='No']=='No')
+ fp <- sum(pred.class[test.class[index[,i]=='te',1]=='No']=='Yes')
+ fn <- sum(pred.class[test.class[index[,i]=='te',1]=='Yes']=='No')
+ num <- tp*tn-fp*fn
+ denum <- sqrt((tp+fp)*(tp+fn)*(tn+fp)*(tn+fn))
+ if(denum==0){
+ mcc <- 0
+ }else{
+ mcc <- num/denum
+ }
+ f1 <- 2*tp/(2*tp+fp+fn)
+ res <- c(acc,mcc,f1)
+ return(res)
+}
+```
+
+
+## Question 2
+
+For each replicate, build 3 classification models such as LDA(Linear Discriminant Analysis), QDA(Quadratic Discriminant Analysis) and NB(Naive Bayes) for the training set, and then predict the class labels of the test set. Compute averaged ACC, MCC, and $F_1$ of the test set, using three models. (Just use a threshold of 0.5 for classification).
+
+```{r}
+#| warning: false
+#| cache: true
+
+
+###Q2
+lda.res <- qda.res <- nb.res <- matrix(NA,rep,3)
+for(i in 1:rep){
+ ###LDA
+ lda.tran <- lda(Private~.,data=College[index[,i]=='tr',])
+ lda.pred <- predict(lda.tran,College[index[,i]=='te',])$class
+ lda.res[i,] <- omnibus.fun(pred.class=lda.pred,test.class=College)
+ ###QDA
+ qda.tran <- qda(Private~.,data=College[index[,i]=='tr',])
+ qda.pred <- predict(qda.tran,College[index[,i]=='te',])$class
+ qda.res[i,] <- omnibus.fun(pred.class=qda.pred,test.class=College)
+ ###NB
+ nb.tran <- naiveBayes(Private~.,data=College[index[,i]=='tr',])
+ nb.pred <- predict(nb.tran,College[index[,i]=='te',])
+ nb.res[i,] <- omnibus.fun(pred.class=nb.pred,test.class=College)
+}
+ans2 <- rbind(apply(lda.res,2,mean),apply(qda.res,2,mean),apply(nb.res,2,mean))
+colnames(ans2) <- c('ACC','MCC','F1')
+rownames(ans2) <- c('LDA','QDA','NB')
+ans2 %>% kable() %>% kable_styling(full_width = F)
+```
+
+## Question 3
+
+For each replicate, build a classification tree for the training set, and then predict the class labels of the test set. Compute averaged ACC, MCC, and $F_1$ of the test set, using the estimated tree. In this question, do not prune the tree.
+
+```{r}
+#| warning : false
+#| cache: true
+
+tree.res <- matrix(NA,rep,3)
+for(i in 1:rep){
+ tree.tran <- tree(Private~.,data=College[index[,i]=='tr',])
+ tree.pred <- predict(tree.tran,College[index[,i]=='te',],type='class')
+ tree.res[i,] <- omnibus.fun(pred.class=tree.pred,test.class=College)
+}
+ans3 <- matrix(apply(tree.res,2,mean),1,3)
+colnames(ans3) <- c('ACC','MCC','F1')
+rownames(ans3) <- 'Tree'
+ans3 %>% kable() %>% kable_styling(full_width = F)
+
+```
+
+
+## Question 4
+
+For each replicate, perform 10-fold cross validation (CV) for the training set to find the optimal tree size. You must use the following group id matrix **cv.index** to separate 10 groups for each replicate.
+
+\> RNGkind(sample.kind = "Rounding")
+\> set.seed(4444)
+\> cv.id <- rep(seq(10), 60)
+\> cv.index <- matrix(cv.id, length(cv.id), 100)
+\> cv.index <- apply(cv.index, 2, sample)
+
+The function **cv.tree(..., rand=cv.index[,i], FUN=prune.misclass)** should be used for 10-fold CV for the i-th replicate. If you have the exactly same deviance values for different sizes of trees, you should pick up the largest tree for your optimal tree. Compute averaged ACC, MCC, and $F_1$ of the test set, using the optimal tree.
+
+```{r}
+#| warning: false
+#| cache: true
+
+###Q4
+RNGkind(sample.kind = "Rounding")
+set.seed(4444)
+cv.id <- rep(seq(10), 60)
+cv.index <- matrix(cv.id, length(cv.id), 100)
+cv.index <- apply(cv.index, 2, sample)
+cv.tree.res <- matrix(NA,rep,3)
+
+for(i in 1:rep){
+ tree.tran <- tree(Private~.,data=College[index[,i]=='tr',])
+ cvtree.tran <- cv.tree(tree.tran,rand=cv.index[,i],FUN=prune.misclass)
+ w <- max(cvtree.tran$size[which(cvtree.tran$dev==min(cvtree.tran$dev))])
+ prune.college <- prune.misclass(tree.tran, best=w)
+ tree.pred <- predict(prune.college,College[index[,i]=='te',],type='class')
+ cv.tree.res[i,] <- omnibus.fun(pred.class=tree.pred,test.class=College)
+}
+ans4 <- matrix(apply(cv.tree.res,2,mean),1,3)
+colnames(ans4) <- c('ACC','MCC','F1'); rownames(ans4) <- 'CV Tree'
+ans4 %>% kable() %>% kable_styling(full_width = F)
+```
+
+
+## Question 5
+
+For each replicate, build a classification tree for the training set using the bagging method. For each replicate, 300 bootstrap samples for the training set can be generated by
+
+\> RNGkind(sample.kind = "Rounding")
+\> set.seed(5555)
+\> bt.index <- array(0, c(600, 300, 100))
+\> for (t in 1:100) {
++ for (b in 1:300) {
++ u <- unique(sample(1:600, replace=TRUE))
++ bt.index[u, b, t] <- 1
++ }
++ }
+
+For the i-th replicate, the matrix bt.index[,,i] consists of either 1 or 0 for 600 training samples and 300 bootstrap replications, where 1 stands for ‘**selected**’ and 0 stands for ‘**not selected**’ in the bootstrap replicate. The prediction of the bagging tree should follow the majority vote rule. For example, if the jth test observation obtains at least 150 votes for Private=="Yes" among 300 classification trees (generated by the bootstrap replications), the predicted class label of the jth test
+observation is "Yes"; otherwise "No". Compute averaged ACC, MCC, and $F_1$ of the test set, using the bagging tree.
+
+```{r}
+#| wanring: false
+#| cache: true
+
+###Q5
+RNGkind(sample.kind = "Rounding")
+set.seed(5555)
+bt.index <- array(0, c(600, 300, 100))
+for (t in 1:100) {
+ for (b in 1:300) {
+ u <- unique(sample(1:600, replace=TRUE))
+ bt.index[u, b, t] <- 1
+ }
+}
+num.test <- sum(id=='te')
+bagging <- matrix(NA,rep,3)
+for(i in 1:rep){
+ mat.rep <- bt.index[,,i]
+ bt.rep <- dim(mat.rep)[2]
+ bagging.res <- matrix(NA,bt.rep,num.test)
+ for(b in 1:bt.rep){
+ College.temp <- College[index[,i]=='tr',][mat.rep[,b]==1,]
+ bagging.tran <- tree(Private~.,data=College.temp)
+ bagging.pred <- predict(bagging.tran,College[index[,i]=='te',],type='class')
+ bagging.res[b,] <- bagging.pred
+ }
+ vote <- apply(bagging.res,2,function(x) sum(x==2))
+ decision <- rep('No',num.test)
+ decision[vote >= 150] <- 'Yes'
+ bagging[i,] <- omnibus.fun(pred.class=decision,test.class=College)
+}
+
+ans5 <- matrix(apply(bagging,2,mean),1,3)
+colnames(ans5) <- c('ACC','MCC','F1')
+rownames(ans5) <- 'Bagging'
+ans5 %>% kable() %>% kable_styling(full_width = F)
+```
+
+
+## Question 6
+
+For each replicate, build random forest for the training set where the number of predictors (m) is considered as 1, 2, 3, 4 ,5 or 6. To find the optimal value of m, perform 10-fold cross validation (CV) using cv.index in Q4. The optimal value of m should minimize an averaged misclassification rate of 10 folds. If multiple m values have the exactly same misclassification rate, you must select a smaller value of m. In order to fit random forest, use the **randomForest** function with ntree=1000. If you find the optimal value of m each replicate, compute ACC, MCC, and $F_1$ of the test set using random forest with the optimal m. Finally, provide the averaged ACC, MCC, and $F_1$ over 100 replicates.
+
+```{r}
+#| warning: false
+#| cache: true
+
+###Q6
+m <- 1:6
+K <- 10
+rf.res <- matrix(NA,rep,3)
+for(i in 1:rep){
+ College.tran <- College[index[,i]=='tr',]
+ gr <- cv.index[,i]
+ rf.miss <- matrix(NA,K,length(m))
+ for(k in 1:K){
+ train <- which(gr!=k)
+ test <- which(gr==k)
+ for(j in 1:length(m)){
+ rf.model <-
+randomForest(x=College.tran[train,-1],y=College.tran[train,1],xtest=College.tran[test,-1]
+, ytest=College.tran[test,1],mtry=m[j],importance=TRUE,ntree=1000)
+ rf.conf <- rf.model$test$confusion[1:2,1:2]
+ rf.miss[k,j] <- 1- sum(diag(rf.conf))/sum(rf.conf)
+ }
+ }
+ cv.ave <- apply(rf.miss,2,mean)
+ m.best <- min(m[which(cv.ave==min(cv.ave))])
+ rf.refit <-
+randomForest(x=College.tran[,-1],y=College.tran[,1],xtest=College[index[,i]=='te',-1],
+ytest=College[index[,i]=='te',1],mtry=m.best,importance=TRUE,ntree=1000)
+ rf.refit.pred <- rf.refit$test$predicted
+ rf.res[i,] <- omnibus.fun(pred.class=rf.refit.pred,test.class=College)
+}
+ans6 <- matrix(apply(rf.res,2,mean),1,3)
+colnames(ans6) <- c('ACC','MCC','F1')
+rownames(ans6) <- 'RandomForest'
+ans6 %>% kable() %>% kable_styling(full_width = F)
+```
+
+
+## Question 7
+
+Summarize your result using the following table
+
+$$
+\begin{array}{c|c|c|c}
+ & \text{ACC} & \text{MCC} & \text{F1} \\
+\hline
+\text{Q2 (LDA)} & \dots & \dots & \dots  \\
+\text{Q2 (QDA)} & \dots & \dots & \dots   \\
+\text{Q2 (NB)} & \dots & \dots & \dots   \\
+\text{Q3 (Tree)} & \dots & \dots & \dots   \\
+\text{Q4 (Cross-validated tree)} & \dots & \dots & \dots   \\
+\text{Q5 (Bagging)} & \dots & \dots & \dots   \\
+\text{Q6 (Random Forest)} & \dots & \dots & \dots   \\
+\end{array}
+$$
+
+Who is winner?
+
+```{r}
+#| warning: false
+#| cache: true
+
+
+###Q7
+ans7 <- rbind(ans2,ans3,ans4,ans5,ans6)
+ans7 %>% kable() %>% kable_styling(full_width = F)
+```
+
