@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.55">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Machine_Learning_HW3 – Statsergeant</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<link href="./Machine_learning_hw4.html" rel="next">
+<link href="./Machine_learning_hw2.html" rel="prev">
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar docked">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Machine_learning_hw1.html">Machine_Learning</a></li><li class="breadcrumb-item"><a href="./Machine_learning_hw3.html">Machine_Learning_HW3</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Statsergeant</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/Statsergeant/UNC" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+    <a href="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-instagram"></i></a>
+    <a href="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-twitter"></i></a>
+    <a href="" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-facebook"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Introduction</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">About ME</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Masters_thesis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Masters_thesis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2024_Spring_statistical_consulting</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Fall2023_stat_consulting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">2023_Fall_statistical_consulting</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Machine_Learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Machine_learning_hw1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine_Learning_HW1</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Machine_learning_hw2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine_Learning_HW2</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Machine_learning_hw3.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Machine_Learning_HW3</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Machine_learning_hw4.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine_Learning_HW4</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./Machine_learning_hw5.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Machine_Learning_HW5</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#question-1" id="toc-question-1" class="nav-link active" data-scroll-target="#question-1">Question 1</a></li>
+  <li><a href="#question-2" id="toc-question-2" class="nav-link" data-scroll-target="#question-2">Question 2</a></li>
+  <li><a href="#question-3" id="toc-question-3" class="nav-link" data-scroll-target="#question-3">Question 3</a></li>
+  <li><a href="#question-4" id="toc-question-4" class="nav-link" data-scroll-target="#question-4">Question 4</a></li>
+  <li><a href="#question-5" id="toc-question-5" class="nav-link" data-scroll-target="#question-5">Question 5</a></li>
+  <li><a href="#question-6" id="toc-question-6" class="nav-link" data-scroll-target="#question-6">Question 6</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./Machine_learning_hw1.html">Machine_Learning</a></li><li class="breadcrumb-item"><a href="./Machine_learning_hw3.html">Machine_Learning_HW3</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Machine_Learning_HW3</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><br> Open the data set <code>College</code> in the R package <code>ISLR</code>. The data information is available with <code>?College</code>. All of 17 variables except the response variable <code>Private</code> are used for predictors. For the training set, randomly generate 543 observations such that</p>
+<p>The other 234 observations are regarded as the test set.</p>
+<section id="question-1" class="level2">
+<h2 class="anchored" data-anchor-id="question-1">Question 1</h2>
+<p>Build 4 classifiers such as LR (Logistic Regression), LDA(Linear Discriminant Analysis), QDA(Quadratic Discriminant Analysis) and NB(Naive Bayes) based on the training set. Compute the misclassification rate of the test set. Use the threshold of 0.5 for LR.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(College)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> College[,<span class="dv">1</span>]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>y.num <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(y))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>y.num[y<span class="sc">==</span><span class="st">'Yes'</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(College[,<span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">RNGkind</span>(<span class="at">sample.kind =</span> <span class="st">"Rounding"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>tran <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">dim</span>(College)[<span class="dv">1</span>], <span class="fu">floor</span>(<span class="fu">dim</span>(College)[<span class="dv">1</span>]<span class="sc">*</span><span class="fl">0.7</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">dim</span>(College)[<span class="dv">1</span>],tran)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="do">###Q1</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>logit.tran <span class="ot">&lt;-</span> <span class="fu">glm</span>(y.num<span class="sc">~</span>x,<span class="at">family=</span><span class="st">'binomial'</span>,<span class="at">subset=</span>tran)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>logit.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit.tran,<span class="fu">data.frame</span>(x),<span class="at">type=</span><span class="st">'response'</span>)[test]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>logit.class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(logit.pred<span class="sc">&gt;=</span><span class="fl">0.5</span>,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>logit.miss <span class="ot">&lt;-</span> <span class="fu">mean</span>(y.num[test]<span class="sc">!=</span>logit.class)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>lda.tran <span class="ot">&lt;-</span> <span class="fu">lda</span>(y.num<span class="sc">~</span>x,<span class="at">subset=</span>tran)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>lda.class <span class="ot">&lt;-</span> <span class="fu">predict</span>(lda.tran,<span class="fu">data.frame</span>(x))<span class="sc">$</span>class[test]</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>lda.miss <span class="ot">&lt;-</span> <span class="fu">mean</span>(y.num[test]<span class="sc">!=</span>lda.class)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>qda.tran <span class="ot">&lt;-</span> <span class="fu">qda</span>(y.num<span class="sc">~</span>x,<span class="at">subset=</span>tran)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>qda.class <span class="ot">&lt;-</span> <span class="fu">predict</span>(qda.tran,<span class="fu">data.frame</span>(x))<span class="sc">$</span>class[test]</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>qda.miss <span class="ot">&lt;-</span> <span class="fu">mean</span>(y.num[test]<span class="sc">!=</span>qda.class)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>nb.tran <span class="ot">&lt;-</span> <span class="fu">naiveBayes</span>(Private<span class="sc">~</span>.,<span class="at">data=</span>College,<span class="at">subset=</span>tran)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>nb.class <span class="ot">&lt;-</span> <span class="fu">predict</span>(nb.tran,College)[test]</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>nb.miss <span class="ot">&lt;-</span> <span class="fu">mean</span>(y[test]<span class="sc">!=</span>nb.class)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>ans1 <span class="ot">&lt;-</span> <span class="fu">c</span>(logit.miss,lda.miss,qda.miss,nb.miss)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ans1) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'LR'</span>,<span class="st">'LDA'</span>,<span class="st">'QDA'</span>,<span class="st">'NB'</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>ans1 <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">LR</td>
+<td style="text-align: right;">0.0427350</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LDA</td>
+<td style="text-align: right;">0.0341880</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QDA</td>
+<td style="text-align: right;">0.0555556</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NB</td>
+<td style="text-align: right;">0.0512821</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="question-2" class="level2">
+<h2 class="anchored" data-anchor-id="question-2">Question 2</h2>
+<p>Using 4 different classifiers built in Q1, draw ROC (Receiver Operating Characteristic) curves for the test set. You can use the package <code>ROCR</code>. All of 4 curves should be displayed in the same plot so that we can directly compare their prediction performance for the test set. Also, compute AUC (Area Under the Curve) of 4 classifiers for the test set.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="do">###Q2</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>q2.logit.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit.tran,<span class="fu">data.frame</span>(x),<span class="at">type=</span><span class="st">'response'</span>)[test]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>q2.lda.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lda.tran,<span class="fu">data.frame</span>(x))<span class="sc">$</span>posterior[,<span class="dv">2</span>][test]</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>q2.qda.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(qda.tran,<span class="fu">data.frame</span>(x))<span class="sc">$</span>posterior[,<span class="dv">2</span>][test]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>q2.nb.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(nb.tran,College,<span class="at">type=</span><span class="st">'raw'</span>)[,<span class="dv">2</span>][test]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>label <span class="ot">&lt;-</span> <span class="fu">factor</span>(y[test],<span class="at">levels=</span><span class="fu">c</span>(<span class="st">"Yes"</span>,<span class="st">"No"</span>),<span class="at">labels=</span><span class="fu">c</span>(<span class="st">"TRUE"</span>,<span class="st">"FALSE"</span>))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>logit.preds <span class="ot">&lt;-</span> <span class="fu">prediction</span>(q2.logit.pred,label)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>lda.preds <span class="ot">&lt;-</span> <span class="fu">prediction</span>(q2.lda.pred,label)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>qda.preds <span class="ot">&lt;-</span> <span class="fu">prediction</span>(q2.qda.pred,label)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>nb.preds <span class="ot">&lt;-</span> <span class="fu">prediction</span>(q2.nb.pred,label)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>logit.perf <span class="ot">&lt;-</span> <span class="fu">performance</span>(logit.preds,<span class="st">"tpr"</span>,<span class="st">"fpr"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>lda.perf <span class="ot">&lt;-</span> <span class="fu">performance</span>(lda.preds,<span class="st">"tpr"</span>,<span class="st">"fpr"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>qda.perf <span class="ot">&lt;-</span> <span class="fu">performance</span>(qda.preds,<span class="st">"tpr"</span>,<span class="st">"fpr"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>nb.perf <span class="ot">&lt;-</span> <span class="fu">performance</span>(nb.preds,<span class="st">"tpr"</span>,<span class="st">"fpr"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(logit.perf, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">"darkblue"</span>,<span class="at">lty=</span><span class="dv">1</span>,<span class="at">main=</span><span class="st">'ROC Curves'</span>)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lda.perf,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">'darkgreen'</span>,<span class="at">lty=</span><span class="dv">2</span>,<span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(qda.perf,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">'red'</span>,<span class="at">lty=</span><span class="dv">3</span>,<span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(nb.perf,<span class="at">lwd=</span><span class="dv">2</span>,<span class="at">col=</span><span class="st">'black'</span>,<span class="at">lty=</span><span class="dv">4</span>,<span class="at">add=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>, <span class="at">b=</span><span class="dv">1</span>, <span class="at">lty=</span><span class="dv">2</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">'bottomright'</span>,<span class="at">legend=</span><span class="fu">c</span>(<span class="st">'LR'</span>,<span class="st">'LDA'</span>,<span class="st">'QDA'</span>,<span class="st">'NB'</span>),</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a> <span class="at">col=</span><span class="fu">c</span>(<span class="st">'darkblue'</span>,<span class="st">'darkgreen'</span>,<span class="st">'red'</span>,<span class="st">'black'</span>),<span class="at">lwd=</span><span class="fu">rep</span>(<span class="dv">2</span>,<span class="dv">4</span>),<span class="at">lty=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>,<span class="at">bty=</span><span class="st">'n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Machine_learning_hw3_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>logit.auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(logit.preds, <span class="st">"auc"</span>)<span class="sc">@</span>y.values</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>lda.auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(lda.preds, <span class="st">"auc"</span>)<span class="sc">@</span>y.values</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>qda.auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(qda.preds, <span class="st">"auc"</span>)<span class="sc">@</span>y.values</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>nb.auc <span class="ot">&lt;-</span> <span class="fu">performance</span>(nb.preds, <span class="st">"auc"</span>)<span class="sc">@</span>y.values</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ans2 <span class="ot">&lt;-</span> <span class="fu">c</span>(logit.auc[[<span class="dv">1</span>]],lda.auc[[<span class="dv">1</span>]],qda.auc[[<span class="dv">1</span>]],nb.auc[[<span class="dv">1</span>]])</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ans2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'LR'</span>,<span class="st">'LDA'</span>,<span class="st">'QDA'</span>,<span class="st">'NB'</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ans2 <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">LR</td>
+<td style="text-align: right;">0.9869697</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LDA</td>
+<td style="text-align: right;">0.9904097</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QDA</td>
+<td style="text-align: right;">0.9733139</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NB</td>
+<td style="text-align: right;">0.9885333</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="question-3" class="level2">
+<h2 class="anchored" data-anchor-id="question-3">Question 3</h2>
+<p>Separate 543 training observations into 10 folds such that</p>
+<p>Perform 10-fold cross validation (CV) based on <code>gr</code> to find the optimal threshold of the prediction probability each classifier. For example, we can classify the jth observation as “Yes” if <span class="math display">\[
+P(y_j = \text{'Yes'} \mid x_j) &gt; \alpha
+\]</span> where <span class="math inline">\(\alpha\)</span> ∈ [0, 1] is a threshold. Let <span class="math inline">\(\alpha\)</span> starts from 0 to 1 increased by 0.01. The optimal threshold minimizes the misclassification rate of the 10-fold CV. If the minimum of the misclassification rate is achieved at multiple <span class="math inline">\(\alpha\)</span> values, the optimal <span class="math inline">\(\alpha\)</span> should be computed as the mean of the <span class="math inline">\(\alpha\)</span> values that minimize the misclassification rate. Find the optimal threshold for each classifier and then apply the optimal threshold to compute the misclassification rate of the test set. Provide the misclassification rate of the test set along with the optimal threshold for each classifier.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="do">###Q3</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">RNGkind</span>(<span class="at">sample.kind =</span> <span class="st">"Rounding"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>N.lab <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="fu">seq</span>(<span class="dv">10</span>), <span class="at">length=</span><span class="fu">sum</span>(College<span class="sc">$</span>Private[tran]<span class="sc">==</span><span class="st">"No"</span>)))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>Y.lab <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">rep</span>(<span class="fu">seq</span>(<span class="dv">10</span>), <span class="at">length=</span><span class="fu">sum</span>(College<span class="sc">$</span>Private[tran]<span class="sc">==</span><span class="st">"Yes"</span>)))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>gr <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">length</span>(tran))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>gr[College<span class="sc">$</span>Private[tran]<span class="sc">==</span><span class="st">"No"</span>] <span class="ot">&lt;-</span> N.lab</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>gr[College<span class="sc">$</span>Private[tran]<span class="sc">==</span><span class="st">"Yes"</span>] <span class="ot">&lt;-</span> Y.lab</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>q3.yy <span class="ot">&lt;-</span> y[tran]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>q3.College <span class="ot">&lt;-</span> College[tran,]</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>q3.y <span class="ot">&lt;-</span> y.num[tran]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>q3.x <span class="ot">&lt;-</span> x[tran,]</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.01</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>q3.logit.miss <span class="ot">&lt;-</span> q3.lda.miss <span class="ot">&lt;-</span> q3.qda.miss <span class="ot">&lt;-</span> q3.nb.miss <span class="ot">&lt;-</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="fu">matrix</span>(<span class="cn">NA</span>,K,<span class="fu">length</span>(alpha))</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>K){</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a> q3.tran <span class="ot">&lt;-</span> <span class="fu">which</span>(gr<span class="sc">!=</span>k)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a> q3.test <span class="ot">&lt;-</span> <span class="fu">which</span>(gr<span class="sc">==</span>k)</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(alpha)){</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a> logit.tran <span class="ot">&lt;-</span> <span class="fu">glm</span>(q3.y<span class="sc">~</span>q3.x,<span class="at">family=</span><span class="st">'binomial'</span>,<span class="at">subset=</span>q3.tran)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a> logit.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit.tran,<span class="fu">data.frame</span>(q3.x),<span class="at">type=</span><span class="st">'response'</span>)[q3.test]</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a> logit.class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(logit.pred <span class="sc">&gt;</span> alpha[i],<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a> q3.logit.miss[k,i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(q3.y[q3.test]<span class="sc">!=</span>logit.class)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a> lda.tran <span class="ot">&lt;-</span> <span class="fu">lda</span>(q3.y<span class="sc">~</span>q3.x,<span class="at">subset=</span>q3.tran)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  lda.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lda.tran,<span class="fu">data.frame</span>(q3.x))<span class="sc">$</span>posterior[,<span class="dv">2</span>][q3.test]</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a> lda.class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(lda.pred <span class="sc">&gt;</span> alpha[i],<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a> q3.lda.miss[k,i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(q3.y[q3.test]<span class="sc">!=</span>lda.class)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a> qda.tran <span class="ot">&lt;-</span> <span class="fu">qda</span>(q3.y<span class="sc">~</span>q3.x,<span class="at">subset=</span>q3.tran)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a> qda.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(qda.tran,<span class="fu">data.frame</span>(q3.x))<span class="sc">$</span>posterior[,<span class="dv">2</span>][q3.test]</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a> qda.class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(qda.pred <span class="sc">&gt;</span> alpha[i],<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a> q3.qda.miss[k,i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(q3.y[q3.test]<span class="sc">!=</span>qda.class)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a> nb.tran <span class="ot">&lt;-</span> <span class="fu">naiveBayes</span>(Private<span class="sc">~</span>.,<span class="at">data=</span>q3.College,<span class="at">subset=</span>q3.tran)</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a> nb.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(nb.tran,q3.College,<span class="at">type=</span><span class="st">'raw'</span>)[,<span class="dv">2</span>][q3.test]</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a> nb.class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(nb.pred <span class="sc">&gt;</span> alpha[i],<span class="st">'Yes'</span>,<span class="st">'No'</span>)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a> q3.nb.miss[k,i] <span class="ot">&lt;-</span> <span class="fu">mean</span>(q3.yy[q3.test]<span class="sc">!=</span>nb.class)</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>q3.logit.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(q3.logit.miss,<span class="dv">2</span>,mean)</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>q3.logit.alpha <span class="ot">&lt;-</span> alpha[<span class="fu">which</span>(q3.logit.cvs<span class="sc">==</span><span class="fu">min</span>(q3.logit.cvs))]</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>q3.logit.class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(q2.logit.pred <span class="sc">&gt;</span> q3.logit.alpha,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>q3.logit.miss <span class="ot">&lt;-</span> <span class="fu">mean</span>(y.num[test]<span class="sc">!=</span>q3.logit.class)</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>q3.lda.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(q3.lda.miss,<span class="dv">2</span>,mean)</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>q3.lda.alpha <span class="ot">&lt;-</span> <span class="fu">mean</span>(alpha[<span class="fu">which</span>(q3.lda.cvs<span class="sc">==</span><span class="fu">min</span>(q3.lda.cvs))])</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>q3.lda.class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(q2.lda.pred <span class="sc">&gt;</span> q3.lda.alpha,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>q3.lda.miss <span class="ot">&lt;-</span> <span class="fu">mean</span>(y.num[test]<span class="sc">!=</span>q3.lda.class)</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>q3.qda.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(q3.qda.miss,<span class="dv">2</span>,mean)</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>q3.qda.alpha <span class="ot">&lt;-</span> <span class="fu">mean</span>(alpha[<span class="fu">which</span>(q3.qda.cvs<span class="sc">==</span><span class="fu">min</span>(q3.qda.cvs))])</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>q3.qda.class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(q2.qda.pred <span class="sc">&gt;</span> q3.qda.alpha,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>q3.qda.miss <span class="ot">&lt;-</span> <span class="fu">mean</span>(y.num[test]<span class="sc">!=</span>q3.qda.class)</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>q3.nb.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(q3.nb.miss,<span class="dv">2</span>,mean)</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>q3.nb.alpha <span class="ot">&lt;-</span> <span class="fu">mean</span>(alpha[<span class="fu">which</span>(q3.nb.cvs<span class="sc">==</span><span class="fu">min</span>(q3.nb.cvs))])</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>q3.nb.class <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(q2.nb.pred <span class="sc">&gt;</span> q3.nb.alpha,<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>q3.nb.miss <span class="ot">&lt;-</span> <span class="fu">mean</span>(y.num[test]<span class="sc">!=</span>q3.nb.class)</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>q3.alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(q3.logit.alpha,q3.lda.alpha,q3.qda.alpha,q3.nb.alpha)</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>q3.miss <span class="ot">&lt;-</span> <span class="fu">c</span>(q3.logit.miss,q3.lda.miss,q3.qda.miss,q3.nb.miss)</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>ans3 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(q3.alpha,q3.miss)</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ans3) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'LR'</span>,<span class="st">'LDA'</span>,<span class="st">'QDA'</span>,<span class="st">'NB'</span>)</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(ans3) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'alpha_hat'</span>,<span class="st">'Mis'</span>)</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>ans3 <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LR</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LDA</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">QDA</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">NB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">alpha_hat</td>
+<td style="text-align: right;">0.510000</td>
+<td style="text-align: right;">0.6400000</td>
+<td style="text-align: right;">0.8900000</td>
+<td style="text-align: right;">0.8350000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mis</td>
+<td style="text-align: right;">0.042735</td>
+<td style="text-align: right;">0.0512821</td>
+<td style="text-align: right;">0.0598291</td>
+<td style="text-align: right;">0.0555556</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="question-4" class="level2">
+<h2 class="anchored" data-anchor-id="question-4">Question 4</h2>
+<p>Let us define Matthews correlation coefficient (MCC) by</p>
+<p><span class="math display">\[
+\text{MCC} = \frac{\text{TP} \times \text{TN} - \text{FP} \times \text{FN}}{\sqrt{(\text{TP} + \text{FP})(\text{TP} + \text{FN})(\text{TN} + \text{FP})(\text{TN} + \text{FN})}}
+\]</span></p>
+<p>where TP/TN means true positives/negatives and FP/FN means false positives/negatives. Note that MCC=0 if the denominator of MCC is 0. Repeat Q3 except that the optimal threshold maximizes MCC of the 10-fold CV. If the maximum of MCC is achieved at multiple <span class="math inline">\(\alpha\)</span> values, the optimal <span class="math inline">\(\alpha\)</span> should be computed as the mean of the <span class="math inline">\(\alpha\)</span> values that maximize MCC. Find the optimal threshold for each classifier and then apply the optimal threshold to compute MCC of the test set. Provide MCC of the test set along with the optimal threshold for each classifier.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="do">###Q4</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>q4.yy <span class="ot">&lt;-</span> y[tran]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>q4.College <span class="ot">&lt;-</span> College[tran,]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>q4.y <span class="ot">&lt;-</span> y.num[tran]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>q4.x <span class="ot">&lt;-</span> x[tran,]</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.01</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>logit.mcc <span class="ot">&lt;-</span> lda.mcc <span class="ot">&lt;-</span> qda.mcc <span class="ot">&lt;-</span> nb.mcc <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,K,<span class="fu">length</span>(alpha))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>K){</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a> q4.tran <span class="ot">&lt;-</span> <span class="fu">which</span>(gr<span class="sc">!=</span>k)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a> q4.test <span class="ot">&lt;-</span> <span class="fu">which</span>(gr<span class="sc">==</span>k)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(alpha)){</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a> <span class="do">##LR</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a> logit.tran <span class="ot">&lt;-</span> <span class="fu">glm</span>(q4.y<span class="sc">~</span>q4.x,<span class="at">family=</span><span class="st">'binomial'</span>,<span class="at">subset=</span>q4.tran)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a> logit.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit.tran,<span class="fu">data.frame</span>(q4.x),<span class="at">type=</span><span class="st">'response'</span>)[q4.test]</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a> logit.desn <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(q4.test))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a> logit.desn[logit.pred <span class="sc">&gt;</span> alpha[i]] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a> logit.tp <span class="ot">&lt;-</span> <span class="fu">sum</span>(logit.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a> logit.tn <span class="ot">&lt;-</span> <span class="fu">sum</span>(logit.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a> logit.fp <span class="ot">&lt;-</span> <span class="fu">sum</span>(logit.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a> logit.fn <span class="ot">&lt;-</span> <span class="fu">sum</span>(logit.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a> logit.num <span class="ot">&lt;-</span> logit.tp<span class="sc">*</span>logit.tn<span class="sc">-</span>logit.fp<span class="sc">*</span>logit.fn</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a> logit.den <span class="ot">&lt;-</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>((logit.tp<span class="sc">+</span>logit.fp)<span class="sc">*</span>(logit.tp<span class="sc">+</span>logit.fn)<span class="sc">*</span>(logit.tn<span class="sc">+</span>logit.fp)<span class="sc">*</span>(logit.tn<span class="sc">+</span>logit.fn))</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span>(logit.den<span class="sc">==</span><span class="dv">0</span>){</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a> logit.mcc[k,i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a> }<span class="cf">else</span>{</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a> logit.mcc[k,i] <span class="ot">&lt;-</span> logit.num<span class="sc">/</span>logit.den</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a> <span class="do">##LDA</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a> lda.tran <span class="ot">&lt;-</span> <span class="fu">lda</span>(q4.y<span class="sc">~</span>q4.x,<span class="at">subset=</span>q4.tran)</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a> lda.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lda.tran,<span class="fu">data.frame</span>(q4.x))<span class="sc">$</span>posterior[,<span class="dv">2</span>][q4.test]</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a> lda.desn <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(q4.test))</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a> lda.desn[lda.pred <span class="sc">&gt;</span> alpha[i]] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a> lda.tp <span class="ot">&lt;-</span> <span class="fu">sum</span>(lda.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a> lda.tn <span class="ot">&lt;-</span> <span class="fu">sum</span>(lda.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a> lda.fp <span class="ot">&lt;-</span> <span class="fu">sum</span>(lda.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a> lda.fn <span class="ot">&lt;-</span> <span class="fu">sum</span>(lda.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a> lda.num <span class="ot">&lt;-</span> lda.tp<span class="sc">*</span>lda.tn<span class="sc">-</span>lda.fp<span class="sc">*</span>lda.fn</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a> lda.den <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((lda.tp<span class="sc">+</span>lda.fp)<span class="sc">*</span>(lda.tp<span class="sc">+</span>lda.fn)<span class="sc">*</span>(lda.tn<span class="sc">+</span>lda.fp)<span class="sc">*</span>(lda.tn<span class="sc">+</span>lda.fn))</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span>(lda.den<span class="sc">==</span><span class="dv">0</span>){</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>   lda.mcc[k,i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a> }<span class="cf">else</span>{</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a> lda.mcc[k,i] <span class="ot">&lt;-</span> lda.num<span class="sc">/</span>lda.den</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a> <span class="do">##QDA</span></span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a> qda.tran <span class="ot">&lt;-</span> <span class="fu">qda</span>(q4.y<span class="sc">~</span>q4.x,<span class="at">subset=</span>q4.tran)</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a> qda.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(qda.tran,<span class="fu">data.frame</span>(q4.x))<span class="sc">$</span>posterior[,<span class="dv">2</span>][q4.test]</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a> qda.desn <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(q4.test))</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a> qda.desn[qda.pred <span class="sc">&gt;</span> alpha[i]] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a> qda.tp <span class="ot">&lt;-</span> <span class="fu">sum</span>(qda.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a> qda.tn <span class="ot">&lt;-</span> <span class="fu">sum</span>(qda.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a> qda.fp <span class="ot">&lt;-</span> <span class="fu">sum</span>(qda.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a> qda.fn <span class="ot">&lt;-</span> <span class="fu">sum</span>(qda.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a> qda.num <span class="ot">&lt;-</span> qda.tp<span class="sc">*</span>qda.tn<span class="sc">-</span>qda.fp<span class="sc">*</span>qda.fn</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a> qda.den <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((qda.tp<span class="sc">+</span>qda.fp)<span class="sc">*</span>(qda.tp<span class="sc">+</span>qda.fn)<span class="sc">*</span>(qda.tn<span class="sc">+</span>qda.fp)<span class="sc">*</span>(qda.tn<span class="sc">+</span>qda.fn))</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span>(qda.den<span class="sc">==</span><span class="dv">0</span>){</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a> qda.mcc[k,i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a> }<span class="cf">else</span>{</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a> qda.mcc[k,i] <span class="ot">&lt;-</span> qda.num<span class="sc">/</span>qda.den</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a> <span class="do">##NB</span></span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a> nb.tran <span class="ot">&lt;-</span> <span class="fu">naiveBayes</span>(Private<span class="sc">~</span>.,<span class="at">data=</span>q4.College,<span class="at">subset=</span>q4.tran)</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a> nb.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(nb.tran,q4.College,<span class="at">type=</span><span class="st">'raw'</span>)[,<span class="dv">2</span>][q4.test]</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a> nb.desn <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(q4.test))</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a> nb.desn[nb.pred <span class="sc">&gt;</span> alpha[i]] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a> nb.tp <span class="ot">&lt;-</span> <span class="fu">sum</span>(nb.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a> nb.tn <span class="ot">&lt;-</span> <span class="fu">sum</span>(nb.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a> nb.fp <span class="ot">&lt;-</span> <span class="fu">sum</span>(nb.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a> nb.fn <span class="ot">&lt;-</span> <span class="fu">sum</span>(nb.desn[q4.y[q4.test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a> nb.num <span class="ot">&lt;-</span> nb.tp<span class="sc">*</span>nb.tn<span class="sc">-</span>nb.fp<span class="sc">*</span>nb.fn</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a> nb.den <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((nb.tp<span class="sc">+</span>nb.fp)<span class="sc">*</span>(nb.tp<span class="sc">+</span>nb.fn)<span class="sc">*</span>(nb.tn<span class="sc">+</span>nb.fp)<span class="sc">*</span>(nb.tn<span class="sc">+</span>nb.fn))</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a> <span class="cf">if</span>(nb.den<span class="sc">==</span><span class="dv">0</span>){</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a> nb.mcc[k,i] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a> }<span class="cf">else</span>{</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a> nb.mcc[k,i] <span class="ot">&lt;-</span> nb.num<span class="sc">/</span>nb.den</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>q4.logit.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(logit.mcc,<span class="dv">2</span>,mean)</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>q4.logit.alpha <span class="ot">&lt;-</span> alpha[<span class="fu">which</span>(q4.logit.cvs<span class="sc">==</span><span class="fu">max</span>(q4.logit.cvs))]</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>q4.logit.desn <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(test))</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>q4.logit.desn[q2.logit.pred <span class="sc">&gt;</span> q4.logit.alpha] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>q4.logit.tp <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.logit.desn[y.num[test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>q4.logit.tn <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.logit.desn[y.num[test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>q4.logit.fp <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.logit.desn[y.num[test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>q4.logit.fn <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.logit.desn[y.num[test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>q4.logit.num <span class="ot">&lt;-</span> q4.logit.tp<span class="sc">*</span>q4.logit.tn<span class="sc">-</span>q4.logit.fp<span class="sc">*</span>q4.logit.fn</span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>q4.logit.den <span class="ot">&lt;-</span></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>((q4.logit.tp<span class="sc">+</span>q4.logit.fp)<span class="sc">*</span>(q4.logit.tp<span class="sc">+</span>q4.logit.fn)<span class="sc">*</span>(q4.logit.tn<span class="sc">+</span>q4.logit.fp)<span class="sc">*</span>(q4.logit.tn<span class="sc">+</span></span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>q4.logit.fn))</span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>q4.logit.mcc <span class="ot">&lt;-</span> q4.logit.num<span class="sc">/</span>q4.logit.den</span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>q4.lda.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(lda.mcc,<span class="dv">2</span>,mean)</span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>q4.lda.alpha <span class="ot">&lt;-</span> alpha[<span class="fu">which</span>(q4.lda.cvs<span class="sc">==</span><span class="fu">max</span>(q4.lda.cvs))]</span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>q4.lda.desn <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(test))</span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>q4.lda.desn[q2.lda.pred <span class="sc">&gt;</span> q4.lda.alpha] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>q4.lda.tp <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.lda.desn[y.num[test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>q4.lda.tn <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.lda.desn[y.num[test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>q4.lda.fp <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.lda.desn[y.num[test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>q4.lda.fn <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.lda.desn[y.num[test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>q4.lda.num <span class="ot">&lt;-</span> q4.lda.tp<span class="sc">*</span>q4.lda.tn<span class="sc">-</span>q4.lda.fp<span class="sc">*</span>q4.lda.fn</span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>q4.lda.den <span class="ot">&lt;-</span></span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>((q4.lda.tp<span class="sc">+</span>q4.lda.fp)<span class="sc">*</span>(q4.lda.tp<span class="sc">+</span>q4.lda.fn)<span class="sc">*</span>(q4.lda.tn<span class="sc">+</span>q4.lda.fp)<span class="sc">*</span>(q4.lda.tn<span class="sc">+</span>q4.lda.fn)</span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>q4.lda.mcc <span class="ot">&lt;-</span> q4.lda.num<span class="sc">/</span>q4.lda.den</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>q4.qda.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(qda.mcc,<span class="dv">2</span>,mean)</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>q4.qda.alpha <span class="ot">&lt;-</span> alpha[<span class="fu">which</span>(q4.qda.cvs<span class="sc">==</span><span class="fu">max</span>(q4.qda.cvs))]</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>q4.qda.desn <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(test))</span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>q4.qda.desn[q2.qda.pred <span class="sc">&gt;</span> q4.qda.alpha] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>q4.qda.tp <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.qda.desn[y.num[test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>q4.qda.tn <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.qda.desn[y.num[test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>q4.qda.fp <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.qda.desn[y.num[test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>q4.qda.fn <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.qda.desn[y.num[test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>q4.qda.num <span class="ot">&lt;-</span> q4.qda.tp<span class="sc">*</span>q4.qda.tn<span class="sc">-</span>q4.qda.fp<span class="sc">*</span>q4.qda.fn</span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>q4.qda.den <span class="ot">&lt;-</span></span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>((q4.qda.tp<span class="sc">+</span>q4.qda.fp)<span class="sc">*</span>(q4.qda.tp<span class="sc">+</span>q4.qda.fn)<span class="sc">*</span>(q4.qda.tn<span class="sc">+</span>q4.qda.fp)<span class="sc">*</span>(q4.qda.tn<span class="sc">+</span>q4.qda.fn))</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>q4.qda.mcc <span class="ot">&lt;-</span> q4.qda.num<span class="sc">/</span>q4.qda.den</span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>q4.nb.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(nb.mcc,<span class="dv">2</span>,mean)</span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>q4.nb.alpha <span class="ot">&lt;-</span> <span class="fu">mean</span>(alpha[<span class="fu">which</span>(q4.nb.cvs<span class="sc">==</span><span class="fu">max</span>(q4.nb.cvs))])</span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>q4.nb.desn <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(test))</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>q4.nb.desn[q2.nb.pred <span class="sc">&gt;</span> q4.nb.alpha] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>q4.nb.tp <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.nb.desn[y.num[test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>q4.nb.tn <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.nb.desn[y.num[test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>q4.nb.fp <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.nb.desn[y.num[test]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>q4.nb.fn <span class="ot">&lt;-</span> <span class="fu">sum</span>(q4.nb.desn[y.num[test]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>q4.nb.num <span class="ot">&lt;-</span> q4.nb.tp<span class="sc">*</span>q4.nb.tn<span class="sc">-</span>q4.nb.fp<span class="sc">*</span>q4.nb.fn</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>q4.nb.den <span class="ot">&lt;-</span></span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>((q4.nb.tp<span class="sc">+</span>q4.nb.fp)<span class="sc">*</span>(q4.nb.tp<span class="sc">+</span>q4.nb.fn)<span class="sc">*</span>(q4.nb.tn<span class="sc">+</span>q4.nb.fp)<span class="sc">*</span>(q4.nb.tn<span class="sc">+</span>q4.nb.fn))</span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>q4.nb.mcc <span class="ot">&lt;-</span> q4.nb.num<span class="sc">/</span>q4.nb.den</span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>q4.alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(q4.logit.alpha,q4.lda.alpha,q4.qda.alpha,q4.nb.alpha)</span>
+<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>q4.mcc <span class="ot">&lt;-</span> <span class="fu">c</span>(q4.logit.mcc,q4.lda.mcc,q4.qda.mcc,q4.nb.mcc)</span>
+<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>ans4 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(q4.alpha,q4.mcc)</span>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ans4) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'LR'</span>,<span class="st">'LDA'</span>,<span class="st">'QDA'</span>,<span class="st">'NB'</span>)</span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(ans4) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'alpha_hat'</span>,<span class="st">'MCC'</span>)</span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>ans4 <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LR</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LDA</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">QDA</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">NB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">alpha_hat</td>
+<td style="text-align: right;">0.5100000</td>
+<td style="text-align: right;">0.6600000</td>
+<td style="text-align: right;">0.9100000</td>
+<td style="text-align: right;">0.8350000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MCC</td>
+<td style="text-align: right;">0.8822027</td>
+<td style="text-align: right;">0.8584171</td>
+<td style="text-align: right;">0.8317398</td>
+<td style="text-align: right;">0.8387935</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="question-5" class="level2">
+<h2 class="anchored" data-anchor-id="question-5">Question 5</h2>
+<p>Let us define F1 score (<span class="math inline">\(F_1\)</span>) by</p>
+<p><span class="math display">\[
+F_1 = \frac{2 \times \text{TP}}{2 \times \text{TP} + \text{FP} + \text{FN}}
+\]</span> Repeat Q3 except that the optimal threshold maximizes <span class="math inline">\(F_1\)</span> of the 10-fold CV. If the maximum of <span class="math inline">\(F_1\)</span> is achieved at multiple <span class="math inline">\(\alpha\)</span> values, the optimal <span class="math inline">\(\alpha\)</span> should be computed as the mean of the <span class="math inline">\(\alpha\)</span> values that maximize <span class="math inline">\(F_1\)</span> Find the optimal threshold for each classifier and then apply the optimal threshold to compute <span class="math inline">\(F_1\)</span> of the test set. Provide <span class="math inline">\(F_1\)</span> of the test set along with the optimal threshold for each classifier.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">###Q5</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>q5.yy <span class="ot">&lt;-</span> y[tran]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>q5.College <span class="ot">&lt;-</span> College[tran,]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>q5.y <span class="ot">&lt;-</span> y.num[tran]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>q5.x <span class="ot">&lt;-</span> x[tran,]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>alpha <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.01</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>K <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>fun.f1 <span class="ot">&lt;-</span> <span class="cf">function</span>(x,<span class="at">y=</span>q5.y,<span class="at">z=</span>q5.test,<span class="at">thred=</span>alpha){</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a> f1 <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a> <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(thred)){</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a> desn <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="fu">length</span>(z))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a> desn[x <span class="sc">&gt;</span> thred[i]] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a> tp <span class="ot">&lt;-</span> <span class="fu">sum</span>(desn[y[z]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a> tn <span class="ot">&lt;-</span> <span class="fu">sum</span>(desn[y[z]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a> fp <span class="ot">&lt;-</span> <span class="fu">sum</span>(desn[y[z]<span class="sc">==</span><span class="dv">0</span>]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a> fn <span class="ot">&lt;-</span> <span class="fu">sum</span>(desn[y[z]<span class="sc">==</span><span class="dv">1</span>]<span class="sc">==</span><span class="dv">0</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a> f1[i] <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span>tp<span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span>tp<span class="sc">+</span>fp<span class="sc">+</span>fn)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a> }</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a> <span class="fu">return</span>(f1)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>logit.f1 <span class="ot">&lt;-</span> lda.f1 <span class="ot">&lt;-</span> qda.f1 <span class="ot">&lt;-</span> nb.f1 <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,K,<span class="fu">length</span>(alpha))</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>K){</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a> q5.tran <span class="ot">&lt;-</span> <span class="fu">which</span>(gr<span class="sc">!=</span>k)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a> q5.test <span class="ot">&lt;-</span> <span class="fu">which</span>(gr<span class="sc">==</span>k)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a> <span class="do">##LR</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a> logit.tran <span class="ot">&lt;-</span> <span class="fu">glm</span>(q5.y<span class="sc">~</span>q5.x,<span class="at">family=</span><span class="st">'binomial'</span>,<span class="at">subset=</span>q5.tran)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a> logit.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(logit.tran,<span class="fu">data.frame</span>(q5.x),<span class="at">type=</span><span class="st">'response'</span>)[q5.test]</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a> logit.f1[k,] <span class="ot">&lt;-</span> <span class="fu">fun.f1</span>(<span class="at">x=</span>logit.pred,<span class="at">y=</span>q5.y,<span class="at">z=</span>q5.test,<span class="at">thred=</span>alpha)</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a> <span class="do">##LDA</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a> lda.tran <span class="ot">&lt;-</span> <span class="fu">lda</span>(q5.y<span class="sc">~</span>q5.x,<span class="at">subset=</span>q5.tran)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a> lda.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lda.tran,<span class="fu">data.frame</span>(q5.x))<span class="sc">$</span>posterior[,<span class="dv">2</span>][q5.test]</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a> lda.f1[k,] <span class="ot">&lt;-</span> <span class="fu">fun.f1</span>(<span class="at">x=</span>lda.pred,<span class="at">y=</span>q5.y,<span class="at">z=</span>q5.test,<span class="at">thred=</span>alpha)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a> <span class="do">##QDA</span></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a> qda.tran <span class="ot">&lt;-</span> <span class="fu">qda</span>(q5.y<span class="sc">~</span>q5.x,<span class="at">subset=</span>q5.tran)</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a> qda.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(qda.tran,<span class="fu">data.frame</span>(q5.x))<span class="sc">$</span>posterior[,<span class="dv">2</span>][q5.test]</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a> qda.f1[k,] <span class="ot">&lt;-</span> <span class="fu">fun.f1</span>(<span class="at">x=</span>qda.pred,<span class="at">y=</span>q5.y,<span class="at">z=</span>q5.test,<span class="at">thred=</span>alpha)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a> <span class="do">##NB</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a> nb.tran <span class="ot">&lt;-</span> <span class="fu">naiveBayes</span>(Private<span class="sc">~</span>.,<span class="at">data=</span>q5.College,<span class="at">subset=</span>q5.tran)</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a> nb.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(nb.tran,q5.College,<span class="at">type=</span><span class="st">'raw'</span>)[,<span class="dv">2</span>][q5.test]</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a> nb.f1[k,] <span class="ot">&lt;-</span> <span class="fu">fun.f1</span>(<span class="at">x=</span>nb.pred,<span class="at">y=</span>q5.y,<span class="at">z=</span>q5.test,<span class="at">thred=</span>alpha)</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>q5.logit.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(logit.f1,<span class="dv">2</span>,mean)</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>q5.logit.alpha <span class="ot">&lt;-</span> alpha[<span class="fu">which</span>(q5.logit.cvs<span class="sc">==</span><span class="fu">max</span>(q5.logit.cvs))]</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>q5.logit.f1 <span class="ot">&lt;-</span> <span class="fu">fun.f1</span>(<span class="at">x=</span>q2.logit.pred,<span class="at">y=</span>y.num,<span class="at">z=</span>test,<span class="at">thred=</span>q5.logit.alpha)</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>q5.lda.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(lda.f1,<span class="dv">2</span>,mean)</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>q5.lda.alpha <span class="ot">&lt;-</span> alpha[<span class="fu">which</span>(q5.lda.cvs<span class="sc">==</span><span class="fu">max</span>(q5.lda.cvs))]</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>q5.lda.f1 <span class="ot">&lt;-</span> <span class="fu">fun.f1</span>(<span class="at">x=</span>q2.lda.pred,<span class="at">y=</span>y.num,<span class="at">z=</span>test,<span class="at">thred=</span>q5.lda.alpha)</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>q5.qda.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(qda.f1,<span class="dv">2</span>,mean)</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>q5.qda.alpha <span class="ot">&lt;-</span> <span class="fu">mean</span>(alpha[<span class="fu">which</span>(q5.qda.cvs<span class="sc">==</span><span class="fu">max</span>(q5.qda.cvs))])</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>q5.qda.f1 <span class="ot">&lt;-</span> <span class="fu">fun.f1</span>(<span class="at">x=</span>q2.qda.pred,<span class="at">y=</span>y.num,<span class="at">z=</span>test,<span class="at">thred=</span>q5.qda.alpha)</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>q5.nb.cvs <span class="ot">&lt;-</span> <span class="fu">apply</span>(nb.f1,<span class="dv">2</span>,mean)</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>q5.nb.alpha <span class="ot">&lt;-</span> <span class="fu">mean</span>(alpha[<span class="fu">which</span>(q5.nb.cvs<span class="sc">==</span><span class="fu">max</span>(q5.nb.cvs))])</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>q5.nb.f1 <span class="ot">&lt;-</span> <span class="fu">fun.f1</span>(<span class="at">x=</span>q2.nb.pred,<span class="at">y=</span>y.num,<span class="at">z=</span>test,<span class="at">thred=</span>q5.nb.alpha)</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>q5.alpha <span class="ot">&lt;-</span> <span class="fu">c</span>(q5.logit.alpha,q5.lda.alpha,q5.qda.alpha,q5.nb.alpha)</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>q5.f1 <span class="ot">&lt;-</span> <span class="fu">c</span>(q5.logit.f1,q5.lda.f1,q5.qda.f1,q5.nb.f1)</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>ans5 <span class="ot">&lt;-</span> <span class="fu">rbind</span>(q5.alpha,q5.f1)</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ans5) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'LR'</span>,<span class="st">'LDA'</span>,<span class="st">'QDA'</span>,<span class="st">'NB'</span>)</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(ans5) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'alpha_hat'</span>,<span class="st">'F1'</span>)</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>ans5 <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LR</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LDA</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">QDA</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">NB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">alpha_hat</td>
+<td style="text-align: right;">0.510000</td>
+<td style="text-align: right;">0.6200000</td>
+<td style="text-align: right;">0.7450000</td>
+<td style="text-align: right;">0.8350000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">F1</td>
+<td style="text-align: right;">0.972067</td>
+<td style="text-align: right;">0.9693593</td>
+<td style="text-align: right;">0.9726776</td>
+<td style="text-align: right;">0.9643836</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</section>
+<section id="question-6" class="level2">
+<h2 class="anchored" data-anchor-id="question-6">Question 6</h2>
+<p class="Tabletitle">
+The optimal <span class="math inline">\(\hat{\alpha}\)</span>
+</p>
+<p><span class="math display">\[
+\begin{array}{c|c|c|c}
+&amp; \text{LR} &amp; \text{LDA} &amp; \text{QDA} &amp; \text{NB} \\
+\hline
+\text{Q3} &amp; \dots &amp; \dots &amp; \dots &amp; \dots  \\
+\text{Q4} &amp; \dots &amp; \dots &amp; \dots &amp; \dots  \\
+\text{Q5} &amp; \dots &amp; \dots &amp; \dots &amp; \dots  \\
+\end{array}
+\]</span></p>
+<p class="Tabletitle">
+Prediction Performance
+</p>
+<p><span class="math display">\[
+\begin{array}{c|c|c|c|c}
+&amp; \text{LR} &amp; \text{LDA} &amp; \text{QDA} &amp; \text{NB} &amp; \textbf{Winner}\\
+\hline
+\text{Q1 (Mis)} &amp; \dots &amp; \dots &amp; \dots &amp; \dots &amp; \dots \\
+\text{Q2 (AUC)} &amp; \dots &amp; \dots &amp; \dots &amp; \dots &amp; \dots \\
+\text{Q3 (Mis)} &amp; \dots &amp; \dots &amp; \dots &amp; \dots &amp; \dots \\
+\text{Q4 (MCC)} &amp; \dots &amp; \dots &amp; \dots &amp; \dots &amp; \dots \\
+\text{Q5 ($F_1$)} &amp; \dots &amp; \dots &amp; \dots &amp; \dots &amp; \dots \\
+\end{array}
+\]</span></p>
+<p>Note that Mis stands for the misclassification rate. For each question, the winner of 4 classifiers should have the smallest misclassification rate, the largest AUC, the largest MCC, or the largest <span class="math inline">\(F_1\)</span>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="do">###Q6</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>q6.alpha <span class="ot">&lt;-</span> <span class="fu">rbind</span>(q3.alpha,q4.alpha,q5.alpha)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(q6.alpha) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'LR'</span>,<span class="st">'LDA'</span>,<span class="st">'QDA'</span>,<span class="st">'NB'</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(q6.alpha) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'Q'</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>q6.alpha <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LR</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LDA</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">QDA</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">NB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q1</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.64</td>
+<td style="text-align: right;">0.890</td>
+<td style="text-align: right;">0.835</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q2</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.66</td>
+<td style="text-align: right;">0.910</td>
+<td style="text-align: right;">0.835</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3</td>
+<td style="text-align: right;">0.51</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">0.745</td>
+<td style="text-align: right;">0.835</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>q6.perf <span class="ot">&lt;-</span> <span class="fu">rbind</span>(ans1,ans2,q3.miss,q4.mcc,q5.f1)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(q6.perf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'LR'</span>,<span class="st">'LDA'</span>,<span class="st">'QDA'</span>,<span class="st">'NB'</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(q6.perf) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'Q1(Mis)'</span>,<span class="st">'Q2(AUC)'</span>,<span class="st">'Q3(Mis)'</span>,<span class="st">'Q4(MCC)'</span>,<span class="st">'Q5(F1)'</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>q6.perf <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LR</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LDA</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">QDA</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">NB</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Q1(Mis)</td>
+<td style="text-align: right;">0.0427350</td>
+<td style="text-align: right;">0.0341880</td>
+<td style="text-align: right;">0.0555556</td>
+<td style="text-align: right;">0.0512821</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q2(AUC)</td>
+<td style="text-align: right;">0.9869697</td>
+<td style="text-align: right;">0.9904097</td>
+<td style="text-align: right;">0.9733139</td>
+<td style="text-align: right;">0.9885333</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q3(Mis)</td>
+<td style="text-align: right;">0.0427350</td>
+<td style="text-align: right;">0.0512821</td>
+<td style="text-align: right;">0.0598291</td>
+<td style="text-align: right;">0.0555556</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Q4(MCC)</td>
+<td style="text-align: right;">0.8822027</td>
+<td style="text-align: right;">0.8584171</td>
+<td style="text-align: right;">0.8317398</td>
+<td style="text-align: right;">0.8387935</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Q5(F1)</td>
+<td style="text-align: right;">0.9720670</td>
+<td style="text-align: right;">0.9693593</td>
+<td style="text-align: right;">0.9726776</td>
+<td style="text-align: right;">0.9643836</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/statsergeant\.quarto\.pub\/statsergeant");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./Machine_learning_hw2.html" class="pagination-link" aria-label="Machine_Learning_HW2">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Machine_Learning_HW2</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./Machine_learning_hw4.html" class="pagination-link" aria-label="Machine_Learning_HW4">
+        <span class="nav-page-text">Machine_Learning_HW4</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+      <i class="bi bi-github" role="img">
+</i> 
+  </li>  
+    <li class="nav-item compact">
+      <i class="bi bi-instagram" role="img">
+</i> 
+  </li>  
+    <li class="nav-item compact">
+      <i class="bi bi-twitter" role="img">
+</i> 
+  </li>  
+    <li class="nav-item compact">
+      <i class="bi bi-facebook" role="img">
+</i> 
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
