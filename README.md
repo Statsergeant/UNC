@@ -11,3 +11,7 @@ I will upload my work and projects that I have learned during UNC masters progra
         title  : Exploring Peaks and Trends in Fungi Nuclei Division Through SiZer Analysis
 
    You will be able to check What I have done as a statistician after consulting with clients.
+
+2. Machine Learning
+
+   Able to check what I have learned and the result of my code.
