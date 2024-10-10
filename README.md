@@ -15,3 +15,6 @@ I will upload my work and projects that I have learned during UNC masters progra
 2. Machine Learning
 
    Able to check what I have learned and the result of my code.
+
+3. SESUG_2024
+   Paper and Power point about Comorbidity Index Score Macro / Function by SAS / R ( Presented at Baltimore, MD)
